@@ -32,7 +32,7 @@
   "env": {
     "browser": true
   },
-  "ignorePatterns": ["next-env.d.ts", "**/*.css", "**/*.scss"],
+  "ignorePatterns": ["next-env.d.ts", "next.config.js", "**/*.css", "**/*.scss"],
   "rules": {
     "no-cond-assign": "error",
     "no-constant-condition": "error",
