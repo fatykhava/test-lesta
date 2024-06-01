@@ -1,5 +1,6 @@
 'use client';
 
+import { toast } from 'react-toastify';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
 import { useColumns } from './config';
@@ -14,6 +15,7 @@ const Table = () => {
   });
 
   console.log({ table });
+  toast.success('message');
 
   return <div>Table</div>;
 };

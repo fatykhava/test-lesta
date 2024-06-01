@@ -1,7 +1,9 @@
+import { ToastContainer } from 'react-toastify';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Image from 'next/image';
 
+import 'react-toastify/dist/ReactToastify.min.css';
 import './globals.scss';
 import styles from './layout.module.scss';
 
@@ -27,9 +29,10 @@ export default function RootLayout({
         </header>
         <div className={styles.layout}>
           <div>
-            <main> {children}</main>
+            <main>{children}</main>
           </div>
         </div>
+        <ToastContainer position="bottom-right" />
       </body>
     </html>
   );
