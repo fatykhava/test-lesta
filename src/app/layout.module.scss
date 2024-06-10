@@ -5,6 +5,10 @@
     url('/images/smoke.png') no-repeat bottom center,
     url('/images/bg.jpg') no-repeat;
   background-size: cover;
+
+  @media (max-width: 500px) {
+    padding: 100px 12px 0;
+  }
 }
 
 .layout > div,
@@ -20,6 +24,10 @@
   right: 0;
   padding: 0 24px;
   background-color: var(--grey);
+
+  @media (max-width: 500px) {
+    padding: 0 12px;
+  }
 
   & > div {
     display: flex;

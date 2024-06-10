@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  align-items: center;
+  z-index: 20;
+  width: max-content;
+  position: sticky;
+  left: 0;
+
+  .controls {
+    position: sticky;
+    display: flex;
+    align-items: center;
+    left: 0;
+  }
+}
+
+.selectLabel {
+  color: var(--light);
+  margin-right: 8px;
+  font-size: 14px !important;
+}
+
+.displayedRows {
+  color: var(--light);
+  font-size: 14px !important;
+  margin-left: 75px;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 13px;
+  top: calc(50% - 3px);
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  user-select: none;
+  pointer-events: none;
+}
+
+.select {
+  border: 1px solid var(--grey) !important;
+  border-radius: 4px !important;
+  padding: 7px 41px 7px 12px !important;
+  font-size: 14px !important;
+  color: var(--light) !important;
+  min-width: auto !important;
+  height: auto !important;
+  min-height: auto !important;
+}
+
+.select ~ svg {
+  fill: var(--light);
+}
+
+.pagination {
+  min-width: 36px !important;
+  height: 36px !important;
+  color: var(--light) !important;
+  font-size: 14px !important;
+  border: 1px solid var(--grey) !important;
+  border-radius: 4px !important;
+  margin: 0 4px !important;
+}
+
+.selected {
+  color: var(--light) !important;
+  background-color: var(--grey) !important;
+  font-weight: 600 !important;
+}
+
+.ellipsis {
+  border: none !important;
+  padding-top: 7px !important;
+}
+
+.arrow {
+  border: none !important;
+}

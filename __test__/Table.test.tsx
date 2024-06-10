@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import Table from '@/components/Table';
+import Table from '@/components/VehiclesTable';
 
 describe('should render properly', () => {
   it('should contain the table', () => {
