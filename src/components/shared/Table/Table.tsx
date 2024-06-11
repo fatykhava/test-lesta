@@ -5,7 +5,7 @@ import { flexRender } from '@tanstack/react-table';
 
 import Pagination from './TablePagination/TablePagination';
 import { StorageKeys } from './config';
-import NoResult from './NoResult';
+import NoResult from './NoResults';
 import IProps from './types';
 
 import styles from './styles.module.scss';

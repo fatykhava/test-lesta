@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 
 const Loader = () => {
   return (
-    <div className={styles.loader}>
+    <div className={styles.loader} data-testid="loader-container">
       <Image src="/images/loader.svg" alt="loader" width={50} height={50} />
     </div>
   );

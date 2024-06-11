@@ -7,7 +7,7 @@ export const httpsClient: AxiosInstance = axios.create({
 
 httpsClient.interceptors.response.use(
   (response) => response.data,
-  async (error) => {
-    return Promise.reject(error);
+  async () => {
+    return Promise.reject('Network error');
   }
 );
