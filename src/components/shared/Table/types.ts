@@ -11,10 +11,6 @@ interface IProps {
   isPin?: boolean;
   columnFilters?: ColumnFiltersState;
   sorting?: SortingState;
-  settingsState?: {
-    resize: boolean;
-    reorder: boolean;
-  };
 }
 
 export default IProps;

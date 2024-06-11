@@ -1,12 +1,11 @@
 'use client';
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { FC, Fragment, useEffect, useRef } from 'react';
 import { flexRender } from '@tanstack/react-table';
 
 import Pagination from './TablePagination/TablePagination';
 import { StorageKeys } from './config';
 import NoResult from './NoResult';
-import SortIcon from './SortIcon';
 import IProps from './types';
 
 import styles from './styles.module.scss';
@@ -20,8 +19,7 @@ const Table: FC<IProps> = ({
   filterTabs,
   isPin = true,
   columnFilters,
-  sorting,
-  settingsState
+  sorting
 }) => {
   const currentPage = table.getState().pagination.pageIndex;
   const tableRef = useRef<null | HTMLDivElement>(null);
@@ -71,30 +69,9 @@ const Table: FC<IProps> = ({
                       style={{ width: header.getSize() }}
                       id={header.id}
                     >
-                      {header.isPlaceholder ? null : (
-                        <>
-                          <div className={styles.head}>
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                            <div
-                              className={styles.sort}
-                              onClick={header.column.getToggleSortingHandler()}
-                            >
-                              {header.column.getCanSort() && (
-                                <SortIcon type={header.column.getIsSorted()} />
-                              )}
-                            </div>
-                          </div>
-                          {settingsState?.resize && (
-                            <div
-                              className={`${styles.resizer} ${
-                                header.column.getIsResizing() ? styles.isResizing : ''
-                              }`}
-                              onMouseDown={header.getResizeHandler()}
-                              onTouchStart={header.getResizeHandler()}
-                            />
-                          )}
-                        </>
-                      )}
+                      <div className={styles.head}>
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                      </div>
                     </th>
                   );
                 })}
@@ -114,7 +91,7 @@ const Table: FC<IProps> = ({
                     }`}
                     style={{ width: cell.column.getSize() }}
                   >
-                    <div className={(cell.column.columnDef as any)?.isDense ? '' : styles.padding}>
+                    <div className={styles.padding}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </div>
                   </td>

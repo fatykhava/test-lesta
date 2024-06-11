@@ -9,7 +9,7 @@ export const VEHICLES_QUERY_CONFIG = {
 
 export const useVehicles = (page: number, limit: number) => {
   return useQuery({
-    queryKey: [VEHICLES_QUERY_CONFIG.key, page],
+    queryKey: [VEHICLES_QUERY_CONFIG.key, page, limit],
     queryFn: () => VEHICLES_QUERY_CONFIG.fn(page, limit),
     placeholderData: keepPreviousData,
     retry: false,

@@ -20,9 +20,7 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 import isEmpty from 'lodash/isEmpty';
-import isUndefined from 'lodash/isUndefined';
-// import omit from 'lodash/omit';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { useDebounce } from '@/hooks';
 
@@ -50,8 +48,10 @@ export function useTable<T>(
   initFilter?: ColumnFiltersState
 ) {
   const searchParams = useSearchParams();
-  // const router = useRouter();
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const page = isNavigation ? Number(searchParams.get('page') || 1) - 1 : 0;
+
   const filters = isNavigation
     ? getFiltes(searchParams.get('filters') as string)
     : initFilter || [];
@@ -67,6 +67,7 @@ export function useTable<T>(
     pageIndex: page,
     pageSize: getPageSize(idTable, pageSize)
   });
+
   useEffect(() => {
     if (page !== pagination.pageIndex) {
       setPagination((oldValue) => {
@@ -98,26 +99,23 @@ export function useTable<T>(
 
   useEffect(() => {
     if (filters !== tableColumnFilters && isNavigation) {
-      // if (tableColumnFilters.length) {
-      //   router.push('', {
-      //     ...omit(searchParams, 'page')
-      //     // filters: JSON.stringify(tableColumnFilters)
-      //   });
-      // } else {
-      //   // router.push('', { ...(omit(searchParams.get, ['filters', 'page']) });
-      // }
+      const params = new URLSearchParams(searchParams);
+      if (tableColumnFilters.length) {
+        params.set('filters', JSON.stringify(tableColumnFilters));
+        replace(`${pathname}?${params.toString()}`);
+      } else {
+        replace(`${pathname}?${params.toString()}`);
+      }
     }
   }, [tableColumnFilters, isNavigation]);
 
-  const columnVisibility = getColumnVisibility(columns, idTable);
-  const columnOrder = getColumnOrder(idTable);
   const savedColumnSizing = getColumnSizing(idTable, columnSizing);
 
   const table = useReactTable({
     data: rows,
     columns,
     columnResizeMode: 'onChange',
-    initialState: { columnVisibility, columnSizing },
+    initialState: { columnSizing },
     state: {
       columnFilters: debouncedColumnFilters,
       sorting,
@@ -151,9 +149,6 @@ export function useTable<T>(
     if (!isEmpty(savedColumnSizing)) {
       table.setColumnSizing(savedColumnSizing);
     }
-    if (columnOrder.length) {
-      table.setColumnOrder(columnOrder);
-    }
   }, []);
 
   return {
@@ -181,28 +176,19 @@ function getFiltes(filters: string) {
   }
 }
 
-function getColumnVisibility<T>(columns: ColumnDef<T, unknown>[], idTable: string) {
-  const tableSettings = JSON.parse(localStorage.getItem(StorageKeys.TABLE_SETTINGS) || '{}');
-  const columnSettings = tableSettings[idTable] ? tableSettings[idTable] : {};
-  return columns.reduce((obj, column) => {
-    const state = columnSettings[column.id || ''];
-    return { ...obj, [column.id || '']: isUndefined(state) ? !column.enableHiding : state };
-  }, {});
-}
-
-function getColumnOrder(idTable: string) {
-  const tableOrder = JSON.parse(localStorage.getItem(StorageKeys.TABLE_ORDER) || '{}');
-  const columnOrder = tableOrder[idTable] ? tableOrder[idTable] : [];
-  return columnOrder;
-}
-
 function getColumnSizing(idTable: string, initColumnSizing: ColumnSizingState | undefined) {
-  const tableSizing = JSON.parse(localStorage.getItem(StorageKeys.TABLE_SIZING) || '{}');
-  const columnSizing = tableSizing[idTable] ? tableSizing[idTable] : initColumnSizing;
-  return columnSizing;
+  if (typeof window !== 'undefined') {
+    const tableSizing = JSON.parse(localStorage.getItem(StorageKeys.TABLE_SIZING) || '{}');
+    const columnSizing = tableSizing[idTable] ? tableSizing[idTable] : initColumnSizing;
+    return columnSizing;
+  }
+  return initColumnSizing;
 }
 
-function getPageSize(idTable: string, defaultPageSize: number) {
-  const tablePageSize = JSON.parse(localStorage.getItem(StorageKeys.TABLE_PAGE_SIZE) || '{}');
-  return tablePageSize[idTable] ? tablePageSize[idTable] : defaultPageSize;
+export function getPageSize(idTable: string, defaultPageSize: number) {
+  if (typeof window !== 'undefined') {
+    const tablePageSize = JSON.parse(localStorage.getItem(StorageKeys.TABLE_PAGE_SIZE) || '{}');
+    return tablePageSize[idTable] ? tablePageSize[idTable] : defaultPageSize;
+  }
+  return defaultPageSize;
 }

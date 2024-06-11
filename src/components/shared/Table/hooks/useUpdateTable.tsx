@@ -14,6 +14,7 @@ export function useUpdateTable<T>({
   setRows: Dispatch<SetStateAction<T[]>>;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     if (!loading && !error && items !== undefined && totalItems !== undefined) {
       setTotalCount(totalItems);

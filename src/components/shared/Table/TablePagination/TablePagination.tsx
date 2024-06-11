@@ -1,21 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC } from 'react';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import TablePaginationUI from '@mui/material/TablePagination';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-// import omit from 'lodash/omit';
-// import { useRouter } from 'next/navigation';
 import { StorageKeys } from '../config';
 
 import { IMeta, IProps } from './types';
 
 import styles from './styles.module.scss';
 
-const rowsPerPageOptions = [5, 10, 15, 20];
+const rowsPerPageOptions = [10, 15, 20, 25];
 
 const TablePagination: FC<IProps> = ({ id, table, isNavigation }) => {
-  // const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
   const pageCount = table.getPageCount();
 
@@ -36,7 +36,8 @@ const TablePagination: FC<IProps> = ({ id, table, isNavigation }) => {
           onPageChange={() => {}}
           onRowsPerPageChange={(event) => setPageSizeHandler(Number(event.target.value))}
           ActionsComponent={ActionComponentDisabled}
-          labelRowsPerPage="Rows per page"
+          labelRowsPerPage="Кол-во строк"
+          labelDisplayedRows={({ from, to, count }) => `${from}–${to} из ${count}`}
           classes={{
             selectLabel: styles.selectLabel,
             select: styles.select,
@@ -68,20 +69,24 @@ const TablePagination: FC<IProps> = ({ id, table, isNavigation }) => {
 
   function setPageHandler(page: number) {
     if (isNavigation) {
-      // router.push({ query: { ...router?.query, page: page } });
+      const params = new URLSearchParams(searchParams);
+      params.set('page', String(page));
+      replace(`${pathname}?${params.toString()}`);
     }
     table.setPageIndex(page - 1);
   }
 
-  function setPageSizeHandler(page: number) {
+  function setPageSizeHandler(size: number) {
     if (isNavigation) {
-      // router.push({ query: { ...omit(router?.query, ['filters', 'page']) } });
+      const params = new URLSearchParams(searchParams);
+      params.delete('page');
+      replace(`${pathname}?${params.toString()}`);
     }
-    table.setPageSize(page);
+    table.setPageSize(size);
     const tablePageSize = JSON.parse(localStorage.getItem(StorageKeys.TABLE_PAGE_SIZE) || '{}');
     localStorage.setItem(
       StorageKeys.TABLE_PAGE_SIZE,
-      JSON.stringify({ ...tablePageSize, [id]: page })
+      JSON.stringify({ ...tablePageSize, [id]: size })
     );
   }
 };
