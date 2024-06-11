@@ -26,6 +26,21 @@ import { useDebounce } from '@/hooks';
 
 import { StorageKeys } from '../config';
 
+/**
+ * Custom hook for managing a table with pagination, sorting, filtering, and row selection.
+ *
+ * @param {function} getColumns - Function that returns an array of column definitions.
+ * @param {Object} options - Options object.
+ * @param {number} options.pageSize - The number of rows per page.
+ * @param {Object} options.initialSorting - The initial sorting state.
+ * @param {Object} options.columnSizing - The initial column sizing state.
+ * @param {string} options.idTable - The ID of the table.
+ * @param {boolean|function} options.enableRowSelection - Enables row selection.
+ * @param {boolean} [isNavigation=true] - Enables navigation.
+ * @param {Array} [initFilter] - Initial filter state.
+ * @return {Object} An object containing various table state and control functions.
+ */
+
 export function useTable<T>(
   getColumns: (
     setTableColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>,
@@ -168,6 +183,13 @@ export function useTable<T>(
   };
 }
 
+/**
+ * Parses a string into a JSON object.
+ *
+ * @param {string} filters - The string to parse.
+ * @return {any[]} An array of parsed JSON objects.
+ */
+
 function getFiltes(filters: string) {
   try {
     return JSON.parse(String(filters || '[]'));
@@ -175,6 +197,14 @@ function getFiltes(filters: string) {
     return [];
   }
 }
+
+/**
+ * Retrieves the column sizing information for a given table ID from local storage, or returns the default column sizing if not found.
+ *
+ * @param {string} idTable - The ID of the table.
+ * @param {ColumnSizingState | undefined} initColumnSizing - The default column sizing to return if the column sizing for the table is not found in local storage.
+ * @return {ColumnSizingState | undefined} The column sizing information for the table ID, or the default column sizing if not found.
+ */
 
 function getColumnSizing(idTable: string, initColumnSizing: ColumnSizingState | undefined) {
   if (typeof window !== 'undefined') {
@@ -184,6 +214,14 @@ function getColumnSizing(idTable: string, initColumnSizing: ColumnSizingState | 
   }
   return initColumnSizing;
 }
+
+/**
+ * Retrieves the page size for a given table ID from local storage, or returns the default page size if not found.
+ *
+ * @param {string} idTable - The ID of the table.
+ * @param {number} defaultPageSize - The default page size to return if the page size for the table is not found in local storage.
+ * @return {number} The page size for the table ID, or the default page size if not found.
+ */
 
 export function getPageSize(idTable: string, defaultPageSize: number) {
   if (typeof window !== 'undefined') {

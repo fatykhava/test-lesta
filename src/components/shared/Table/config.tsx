@@ -12,6 +12,18 @@ import setColumnFiltersHandler from './utils';
 
 import styles from './styles.module.scss';
 
+/**
+ * Returns the configuration object for the table.
+ *
+ * @return {Object} The configuration object with the following properties:
+ *   - pageSize: The initial page size for the table. Defaults to 10.
+ *   - initialSorting: The initial sorting configuration for the table.
+ *     - desc: A boolean indicating whether the sorting should be in descending order.
+ *     - id: The ID of the column to sort by. Defaults to 'id'.
+ *   - columnSizing: An object mapping column names to their respective widths.
+ *   - idTable: The ID of the table. Defaults to 'tanks'.
+ */
+
 export const getTableConfig = () => ({
   pageSize: getPageSize('tanks', 10),
   initialSorting: {
@@ -32,6 +44,16 @@ export const getTableConfig = () => ({
   },
   idTable: 'tanks'
 });
+
+/**
+ * Returns a memoized array of column definitions for the table. Each column definition
+ * includes an id, accessor function, cell function, and header. The accessor function
+ * transforms the row data into a React component for the cell, and the cell function
+ * retrieves the value from the cell. The header includes a title and a filter component.
+ *
+ * @return {MemoizedColumnDefs<IVehicles>[]}
+ *   An array of memoized column definitions for the table.
+ */
 
 export const useColumns = () => {
   return (

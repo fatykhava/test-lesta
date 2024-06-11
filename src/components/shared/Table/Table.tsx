@@ -110,12 +110,24 @@ const Table: FC<IProps> = ({
     </div>
   );
 
+  /**
+   * Scrolls the table to the top-left corner with a smooth animation.
+   *
+   * @return {void}
+   */
   function scrollTo() {
     if (tableRef?.current) {
       tableRef.current.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
   }
 
+  /**
+   * Saves the column sizing information for a given table to local storage.
+   *
+   * @param {string} idTable - The ID of the table.
+   * @param {Record<string, number>} columns - The column sizing information.
+   * @return {void} This function does not return anything.
+   */
   function saveColumnSizing(idTable: string, columns: Record<string, number>) {
     const tableSizing = JSON.parse(localStorage.getItem(StorageKeys.TABLE_SIZING) || '{}');
     localStorage.setItem(

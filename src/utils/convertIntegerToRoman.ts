@@ -1,3 +1,10 @@
+/**
+ * Converts an integer to its corresponding Roman numeral representation.
+ *
+ * @param {number} num - The integer to be converted.
+ * @return {string | undefined} The Roman numeral representation of the integer, or undefined if the input is zero.
+ */
+
 const convertIntegerToRoman = (num: number): string | undefined => {
   const romanNumerals = [
     { value: 1000, numeral: 'M' },
