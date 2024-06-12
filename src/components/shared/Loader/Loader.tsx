@@ -1,5 +1,6 @@
 'use client';
 
+import { memo } from 'react';
 import Image from 'next/image';
 
 import styles from './styles.module.scss';
@@ -12,4 +13,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default memo(Loader);

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import TablePaginationUI from '@mui/material/TablePagination';
@@ -91,4 +91,4 @@ const TablePagination: FC<IProps> = ({ id, table, isNavigation }) => {
   }
 };
 
-export default TablePagination;
+export default memo(TablePagination);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 import { useVehicles } from '@/features/vehicles';
 import { IVehicles } from '@/types/vehicles';
@@ -58,4 +58,4 @@ const VehiclesTable = () => {
   );
 };
 
-export default VehiclesTable;
+export default memo(VehiclesTable);

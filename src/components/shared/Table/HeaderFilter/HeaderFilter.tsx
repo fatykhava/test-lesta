@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, memo, useEffect, useState } from 'react';
 
 import IProps from './types';
 
@@ -21,4 +21,4 @@ const HeaderFilter: FC<IProps> = ({ title, tableColumnFilters, setColumnFilters,
   );
 };
 
-export default HeaderFilter;
+export default memo(HeaderFilter);
